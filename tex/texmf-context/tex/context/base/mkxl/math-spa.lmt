@@ -1,0 +1,166 @@
+if not modules then modules = { } end modules ['math-spa'] = {
+    version   = 1.001,
+    comment   = "companion to math-ini.mkiv",
+    author    = "Hans Hagen, PRAGMA-ADE, Hasselt NL",
+    copyright = "PRAGMA ADE / ConTeXt Development Team",
+    license   = "see context related readme files"
+}
+
+-- for the moment (when testing) we use a penalty 1
+
+local setmetatableindex = table.setmetatableindex
+
+local boundary_code     = nodes.nodecodes.boundary
+local hlist_code        = nodes.nodecodes.hlist
+local glue_code         = nodes.nodecodes.glue
+local line_code         = nodes.listcodes.line
+local ghost_code        = nodes.listcodes.ghost
+local middle_code       = nodes.listcodes.middle
+
+local nuts              = nodes.nuts
+local tonut             = nodes.tonut
+local tonode            = nodes.tonode
+
+local getid             = nuts.getid
+local getsubtype        = nuts.getsubtype
+local getnext           = nuts.getnext
+local getwidth          = nuts.getwidth
+local getdata           = nuts.getdata
+local getdepth          = nuts.getdepth
+local getheight         = nuts.getheight
+local getlist           = nuts.getlist
+local setglue           = nuts.setglue
+local getdimensions     = nuts.dimensions
+local getnormalizedline = node.direct.getnormalizedline
+local getbox            = nuts.getbox
+local setoffsets        = nuts.setoffsets
+local addxoffset        = nuts.addxoffset
+
+local nextglue          = nuts.traversers.glue
+local nextlist          = nuts.traversers.list
+local nextboundary      = nuts.traversers.boundary
+
+local texgetdimen       = tex.getdimen
+local texsetdimen       = tex.setdimen
+local texsetcount       = tex.setcount
+
+local boundary          = tex.boundaries.system("mathalign")
+local stages            = { }
+local initial           = { }
+
+stages[1] = function(specification,stage)
+    local box      = getbox(specification.box)
+    local head     = getlist(box)
+    local align    = specification.alignstate
+    local distance = specification.distance
+    for s in nextboundary, head do
+        if getdata(s) == boundary then
+            -- todo: skip over ghost, maybe penalty, maybe glues all in one loop
+            local n = getnext(s)
+            while n and getid(n) == hlist_code and getsubtype(n) == ghost_code do
+                n = getnext(n)
+            end
+         -- while n and getid(n) == glue_code do
+            if n and getid(n) == glue_code then
+                n = getnext(n)
+            end
+            distance = distance + getdimensions(head,n)
+            break
+        end
+    end
+    texsetdimen("global","d_strc_math_indent",distance)
+    if align == 2 then
+        for n in nextglue, head do
+            setglue(n,getwidth(n),0,0,0,0)
+        end
+    end
+end
+
+local function reposition(n,offset)
+    -- We need to relocate the local boxes that we use to push something left or
+    -- right ... quite horrible and one needs a bit twisted mindset for this.
+    for n, id, subtype, list in nextlist, getlist(n) do
+        if subtype == middle_code then
+            addxoffset(n,-offset)
+        end
+    end
+    addxoffset(n,offset)
+end
+
+stages[2] = function(specification,stage)
+    local head        = getlist(getbox(specification.box))
+    local align       = specification.alignstate
+    local maxwidth    = false
+    local cnt         = 0
+    local lastwidth   = 0
+    local firstheight = 0
+    local lastdepth   = 0
+    for n, id, subtype, list in nextlist, head do
+        if subtype == line_code then
+            local t = getnormalizedline(n)
+            local m = t.rightskip + t.parfillrightskip
+            if not maxwidth then
+                maxwidth    = m
+                firstheight = getheight(n)
+                firstwidth  = m
+            elseif m < maxwidth then
+                maxwidth = m
+            end
+            cnt       = cnt + 1
+            lastwidth = m
+            lastdepth = getdepth(n)
+        end
+    end
+    if stage == 2 and (align == 2 or align == 3) then
+        for n, id, subtype, list in nextlist, head do
+            if subtype == line_code then
+                if align == 1 then -- flushleft
+                    -- todo
+                elseif align == 2 then -- middle
+                    reposition(n,maxwidth/2)
+                elseif align == 3 then -- flushright
+                    reposition(n,maxwidth)
+                end
+            end
+        end
+    end
+    texsetcount("global","c_strc_math_n_of_lines",cnt)
+    texsetdimen("global","d_strc_math_max_width",maxwidth)
+    texsetdimen("global","d_strc_math_first_width",firstwidth)
+    texsetdimen("global","d_strc_math_last_width",lastwidth)
+    texsetdimen("global","d_strc_math_first_height",firstheight)
+    texsetdimen("global","d_strc_math_last_depth",lastdepth)
+end
+
+stages[3] = stages[2]
+
+stages[4] = function(specification,stage)
+    nuts.openup(specification,getlist(getbox(specification.box)))
+end
+
+interfaces.implement {
+    name      = "handlemathhang",
+    arguments = {
+        {
+            { "stage", "integer" },
+         -- { "method" },
+            { "alignstate", "integer" },
+            { "box", "integer" },
+            { "distance", "dimension" },
+            { "inbetween", "dimension" },
+            { "height", "dimension" },
+            { "depth", "dimension" },
+        }
+    },
+    actions   = function(specification)
+        local stage = specification.stage
+        if stage == 1 then
+            initial = specification
+        else
+            setmetatableindex(specification,initial)
+        end
+        if stage > 0 and stage <= #stages then
+            stages[stage](specification,stage)
+        end
+    end
+}

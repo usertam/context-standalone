@@ -1,0 +1,21 @@
+% language=us runpath=texruns:manuals/metafun
+
+\doifmode{book}{\endinput}
+
+\startcomponent mfun-titlepage-paper
+
+\environment metafun-environment
+
+\setupbackgrounds
+  [rightpage]
+  [background=title page]
+
+\startstandardmakeup
+  % title page
+\stopstandardmakeup
+
+\setupbackgrounds
+  [rightpage]
+  [background=]
+
+\stopcomponent

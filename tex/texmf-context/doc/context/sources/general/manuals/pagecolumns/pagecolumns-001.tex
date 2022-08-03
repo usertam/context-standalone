@@ -1,0 +1,20 @@
+\environment pagecolumns-000
+
+\definepagecolumns
+  [example]
+  [n=2]
+
+\setupbackgrounds
+  [text]
+  [background=color,
+   backgroundcolor=color-1]
+
+\starttext
+
+\startpagecolumns[example]
+
+  \dorecurse{20}{\fakewords{100}{200}\par}
+
+\stoppagecolumns
+
+\stoptext

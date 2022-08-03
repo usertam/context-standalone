@@ -1,0 +1,109 @@
+local dimensions, kerns  if CONTEXTLMTXMODE == 0 then
+
+ -- local kern_V   = { bottomright = { { kern = -200 } } }
+ -- local kern_W   = { bottomright = { { kern = -100 } } }
+ -- local offset_f = { xoffset = "llx" }
+ --
+ -- dimensions = {
+ --     default = {
+ --         [0x1D453] = offset_f, -- 𝑓
+ --     },
+ -- }
+ --
+ -- kerns = {
+ --     [0x1D449] = kern_V, -- 𝑉
+ --     [0x1D44A] = kern_W, -- 𝑊
+ -- }
+
+end
+
+
+return {
+    name = "termes-math",
+    version = "1.00",
+    comment = "Goodies that complement termes.",
+    author = "Hans Hagen & Mikael Sundqvist",
+    copyright = "ConTeXt development team",
+    mathematics = {
+        parameters = {
+            NoLimitSupFactor                =    0,
+            NoLimitSubFactor                =  900,
+         -- AccentBaseHeight                =    0,
+            AccentBaseDepth                 =   50,
+            RadicalDegreeBottomRaisePercent =   60,
+            RadicalRuleThickness            =   46, -- 52 in font 
+            DelimiterPercent                =   90,
+            DelimiterShortfall              =  400,
+            DisplayOperatorMinHeight        = 1800, -- 1300 in font (only one)
+            PrimeRaisePercent               =   60, -- 50 default
+            PrimeRaiseComposedPercent       =   10, -- 25 default
+        },
+        tweaks = {
+            aftercopying = {
+                {
+                    tweak    = "version",
+                    expected = "Version 1.543",
+                },
+                {
+                    tweak = "dimensions",
+                    list  = {
+                        [0x1D44F] = { xoffset = 0,     width = 1,    italic = 0,   anchor = 1.3  }, -- b
+                        [0x1D451] = { xoffset = 0,     width = 1,    italic = 0,   anchor = 0.8  }, -- d
+                        [0x1D452] = { xoffset = 0,     width = 1,    italic = 0,   anchor = 0.9  }, -- e
+                        [0x0210E] = { xoffset = 0,     width = 1,    italic = 0,   anchor = 1.3  }, -- h
+                        [0x1D458] = { xoffset = 0,     width = 1,    italic = 0,   anchor = 1.3  }, -- k
+                        [0x1D453] = { xoffset = 0.6,   width = 1.4,  italic = 1.2, anchor = 1.5  }, -- f
+                        [0x1D457] = { xoffset = 0.5,   width = 1.3,  italic = 1.7                }, -- j
+                        [0x1D45D] = { xoffset = 0.15,  width = 1.15, italic = 0,   anchor = 1.4  }, -- p
+                        [0x1D45E] = { xoffset = 0,     width = 1,    italic = 0,   anchor = 0.9  }, -- q
+                        [0x1D464] = { xoffset = 0,     width = 1,    italic = 0,   anchor = 1.1  }, -- w
+                        [0x1D6FE] = { xoffset = 0,     width = 1,    italic = 0,   anchor = 1.1  }, -- \gamma
+                        [0x1D706] = { xoffset = 0,     width = 1,    italic = 0,   anchor = 1.05 }, -- \lambda
+                        [0x1D70A] = { xoffset = 0,     width = 1,    italic = 0,   anchor = 1.2  }, -- \omicron
+                        [0x1D70F] = { xoffset = 0,     width = 1,    italic = 0,   anchor = 1.05 }, -- \tau
+                    },
+                },
+                {
+                    tweak = "kerns",
+                    list  = {
+                        [0x2F] = {
+                            topleft     = -0.2,
+                         -- bottomleft  =  0,
+                         -- topright    =  0,
+                            bottomright = -0.2,
+                       },
+                    },
+                },
+                {
+                    tweak   = "fixprimes",
+                    scale   = 0.85,
+                 -- smaller = true,
+                    factor  = 0.95,
+                },
+                {
+                    tweak = "checkspacing",
+                },
+                {
+                    tweak = "addscripts",
+                },
+                {
+                    tweak = "accentdimensions",
+                },
+                {
+                    tweak = "addrules",
+                },
+            },
+        },
+        bigslots = {
+            1, 3, 5, 7
+        },
+        alternates = {
+            dotless = { feature = 'dtls', value = 1, comment = "Mathematical Dotless Forms" },
+        },
+        --
+        -- experimental fixes for mkiv:
+        --
+        dimensions = dimensions,
+        kerns = kerns,
+    },
+}

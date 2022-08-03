@@ -1,0 +1,355 @@
+%D \module
+%D   [      file=s-math-atoms.mksl,
+%D        version=2022.02.13,
+%D          title=\CONTEXT\ Style File,
+%D       subtitle=Show Math Atom Spacing,
+%D         author=Hans Hagen,
+%D           date=\currentdate,
+%D      copyright={PRAGMA ADE \& \CONTEXT\ Development Team}]
+%C
+%C This module is part of the \CONTEXT\ macro||package and is
+%C therefore copyrighted by \PRAGMA. See mreadme.pdf for
+%C details.
+
+%D This is just a quick and dirty overview.
+
+\startmodule[math-tweaks]
+
+\unprotect
+
+\starttexdefinition protected showmathfonttweaks_text_accent #1
+    \bTR
+        \bTD[width=7em,align=flushleft,style=mono] #1 \eTD
+        \bTD \m {\showglyphs \getvalue{#1}{i}  } \eTD
+        \bTD \m {\showglyphs \getvalue{#1}{I}  } \eTD
+        \bTD \m {\showglyphs \getvalue{#1}{x}  } \eTD
+        \bTD \m {\showglyphs \getvalue{#1}{X}  } \eTD
+        \bTD \m {\showglyphs \getvalue{#1}{xx} } \eTD
+        \bTD \m {\showglyphs \getvalue{#1}{XX} } \eTD
+    \eTR
+\stoptexdefinition
+
+\starttexdefinition protected showmathfonttweaks_wide_accent #1
+    \bTR
+        \bTD[width=7em,align=flushleft,style=mono] #1 \eTD
+        \bTD \m {\showglyphs \getvalue{#1}{i}     } \eTD
+        \bTD \m {\showglyphs \getvalue{#1}{I}     } \eTD
+        \bTD \m {\showglyphs \getvalue{#1}{x}     } \eTD
+        \bTD \m {\showglyphs \getvalue{#1}{X}     } \eTD
+        \bTD \m {\showglyphs \getvalue{#1}{xx}    } \eTD
+        \bTD \m {\showglyphs \getvalue{#1}{XX}    } \eTD
+        \bTD \m {\showglyphs \getvalue{#1}{xxxxx} } \eTD
+        \bTD \m {\showglyphs \getvalue{#1}{XXXXX} } \eTD
+    \eTR
+\stoptexdefinition
+
+\starttexdefinition protected showmathfonttweaks_prime #1
+    \bTR
+        \bTD \type{#1} \eTD
+        \bTD \m {\showglyphs #1} \eTD
+    \eTR
+\stoptexdefinition
+
+\starttexdefinition protected showmathfonttweaks_bracer #1
+    \bTR
+        \bTD \type{#1} \eTD
+        \bTD \m {\showglyphs \getvalue{#1}{x}     } \eTD
+        \bTD \m {\showglyphs \getvalue{#1}{xxxxx} } \eTD
+        \bTD \m {\showglyphs \getvalue{#1}{X}     } \eTD
+        \bTD \m {\showglyphs \getvalue{#1}{XXXXX} } \eTD
+    \eTR
+\stoptexdefinition
+
+\starttexdefinition protected showmathfonttweaks
+
+    \startsubject[title=text accents]
+        \startlinecorrection
+            \bTABLE[align=middle,offset=1ex]
+                \showmathfonttweaks_text_accent{grave}
+                \showmathfonttweaks_text_accent{bar}
+                \showmathfonttweaks_text_accent{acute}
+                \showmathfonttweaks_text_accent{hat}
+                \showmathfonttweaks_text_accent{check}
+                \showmathfonttweaks_text_accent{breve}
+                \showmathfonttweaks_text_accent{dot}
+                \showmathfonttweaks_text_accent{ring}
+                \showmathfonttweaks_text_accent{tilde}
+                \showmathfonttweaks_text_accent{ddot}
+                \showmathfonttweaks_text_accent{dddot}
+            \eTABLE
+        \stoplinecorrection
+    \stopsubject
+
+    \startsubject[title=wide accents]
+        \startlinecorrection
+            \bTABLE[align=middle,offset=1ex]
+                \showmathfonttweaks_wide_accent{widegrave}
+                \showmathfonttweaks_wide_accent{widebar}
+                \showmathfonttweaks_wide_accent{wideacute}
+                \showmathfonttweaks_wide_accent{widehat}
+                \showmathfonttweaks_wide_accent{widecheck}
+                \showmathfonttweaks_wide_accent{widebreve}
+                \showmathfonttweaks_wide_accent{widedot}
+                \showmathfonttweaks_wide_accent{widering}
+                \showmathfonttweaks_wide_accent{widetilde}
+                \showmathfonttweaks_wide_accent{wideddot}
+                \showmathfonttweaks_wide_accent{widedddot}
+            \eTABLE
+        \stoplinecorrection
+    \stopsubject
+
+    \startsubject[title=primes]
+        \startlinecorrection
+            \bTABLE[align=flushleft,offset=1ex]
+                \showmathfonttweaks_prime{x'}
+                \showmathfonttweaks_prime{x''}
+                \showmathfonttweaks_prime{x'''}
+                \showmathfonttweaks_prime{X'}
+                \showmathfonttweaks_prime{X''}
+                \showmathfonttweaks_prime{X'''}
+                \showmathfonttweaks_prime{x'}
+                \showmathfonttweaks_prime{x'^2}
+                \showmathfonttweaks_prime{x'_2}
+                \showmathfonttweaks_prime{x'^2_2}
+                \showmathfonttweaks_prime{x'}
+                \showmathfonttweaks_prime{x^2'}
+                \showmathfonttweaks_prime{x_2'}
+                \showmathfonttweaks_prime{x^2_2'}
+            \eTABLE
+        \stoplinecorrection
+    \stopsubject
+
+    \startsubject[title=bracers]
+        \startlinecorrection
+            \bTABLE[align=flushleft,offset=1ex]
+                \showmathfonttweaks_bracer{overbrace}
+                \showmathfonttweaks_bracer{underbrace}
+                \showmathfonttweaks_bracer{overbracket}
+                \showmathfonttweaks_bracer{underbracket}
+                \showmathfonttweaks_bracer{overparent}
+                \showmathfonttweaks_bracer{underparent}
+                \showmathfonttweaks_bracer{overbar}
+                \showmathfonttweaks_bracer{underbar}
+                \showmathfonttweaks_bracer{overline}
+                \showmathfonttweaks_bracer{underline}
+            \eTABLE
+        \stoplinecorrection
+    \stopsubject
+
+    \startsubject[title=whatever]
+        \startlinecorrection
+            \bTABLE[align=flushleft,offset=1ex]
+                \bTR
+                    \bTD \m{\mfunction{máx}}\eTD
+                \eTR
+            \eTABLE
+        \stoplinecorrection
+    \stopsubject
+\stoptexdefinition
+
+\starttexdefinition protected showmathalphabettweaks_check_flush #1
+    \dontleavehmode
+    \hbox \bgroup
+        \smallinfofont
+        \setstrut
+        \lower \dimexpr\dp\scratchbox+\ht\strutbox\relax \hbox to \wd\scratchbox\bgroup
+            \hss
+            \strut
+            \hexnumber{#1}
+            \hss
+        \egroup
+        \hskip-\wd\scratchbox
+        \box\scratchbox
+    \egroup
+\stoptexdefinition
+
+\starttexdefinition protected showmathalphabettweaks_check_scripts
+    \subscript     1
+    \superscript   2
+    \subprescript  3
+    \superprescript4
+\stoptexdefinition
+
+\starttexdefinition protected showmathalphabettweaks_check_hat #1
+    \setbox\scratchbox\ruledhbox {
+        \im {
+            \resetmathattributes
+            \widehat{\Uchar#1}
+            \showmathalphabettweaks_check_scripts
+       }
+    }
+    \showmathalphabettweaks_check_flush{#1}
+\stoptexdefinition
+
+\starttexdefinition protected showmathalphabettweaks_check_fences #1
+    \setbox\scratchbox\ruledhbox {
+        \im {
+            \resetmathattributes
+            \left(
+                \Uchar#1
+                \showmathalphabettweaks_check_scripts
+            \right)
+        }
+    }
+    \showmathalphabettweaks_check_flush{#1}
+\stoptexdefinition
+
+\starttexdefinition protected showmathalphabettweaks_check #1#2
+   \startsubsubsubject[title=#1]
+       \traverseblock {#1} {
+         \begingroup
+         \showglyphs
+         \showfontitalics
+         \showfontkerns
+         #2{##1}%
+         \endgroup
+         \space\space
+       }
+       \removeunwantedspaces
+   \stopsubsubsubject
+\stoptexdefinition
+
+\starttexdefinition protected showmathalphabettweaks_all #1
+    \startsubsubject[title={Numbers}]
+        \showmathalphabettweaks_check{digits normal}#1
+        \showmathalphabettweaks_check{digits bold}#1
+        \showmathalphabettweaks_check{digits sansserif normal}#1
+        \showmathalphabettweaks_check{digits sansserif bold}#1
+        \showmathalphabettweaks_check{digits monospace}#1
+        \showmathalphabettweaks_check{digits doublestruck}#1
+    \stopsubsubject
+    \startsubsubject[title={Lowercase}]
+        \showmathalphabettweaks_check{lowercase normal}#1
+        \showmathalphabettweaks_check{lowercase italic}#1
+        \showmathalphabettweaks_check{lowercase bold}#1
+        \showmathalphabettweaks_check{lowercase bold italic}#1
+        \showmathalphabettweaks_check{lowercase sansserif normal}#1
+        \showmathalphabettweaks_check{lowercase sansserif italic}#1
+        \showmathalphabettweaks_check{lowercase sansserif bold}#1
+        \showmathalphabettweaks_check{lowercase sansserif bolditalic}#1
+        \showmathalphabettweaks_check{lowercase monospace}#1
+        \showmathalphabettweaks_check{lowercase fraktur}#1
+        \showmathalphabettweaks_check{lowercase bold fraktur}#1
+        \showmathalphabettweaks_check{lowercase script}#1
+        \showmathalphabettweaks_check{lowercase bold script}#1
+        \showmathalphabettweaks_check{lowercase doublestruck}#1
+        \showmathalphabettweaks_check{lowercase greek normal}#1
+        \showmathalphabettweaks_check{lowercase greek italic}#1
+        \showmathalphabettweaks_check{lowercase greek bold}#1
+        \showmathalphabettweaks_check{lowercase greek bold italic}#1
+      % \showmathalphabettweaks_check{lowercase greek sansserif normal}#1
+      % \showmathalphabettweaks_check{lowercase greek sansserif italic}#1
+        \showmathalphabettweaks_check{lowercase greek sansserif bold}#1
+        \showmathalphabettweaks_check{lowercase greek sansserif bolditalic}#1
+    \stopsubsubject
+    \startsubsubject[title={Uppercase}]
+        \showmathalphabettweaks_check{uppercase normal}#1
+        \showmathalphabettweaks_check{uppercase italic}#1
+        \showmathalphabettweaks_check{uppercase bold}#1
+        \showmathalphabettweaks_check{uppercase bolditalic}#1
+        \showmathalphabettweaks_check{uppercase sansserif normal}#1
+        \showmathalphabettweaks_check{uppercase sansserif italic}#1
+        \showmathalphabettweaks_check{uppercase sansserif bold}#1
+        \showmathalphabettweaks_check{uppercase sansserif bolditalic}#1
+        \showmathalphabettweaks_check{uppercase monospace}#1
+        \showmathalphabettweaks_check{uppercase fraktur}#1
+        \showmathalphabettweaks_check{uppercase bold fraktur}#1
+        \showmathalphabettweaks_check{uppercase script}#1
+        \showmathalphabettweaks_check{uppercase bold script}#1
+        \showmathalphabettweaks_check{uppercase doublestruck}#1
+        \showmathalphabettweaks_check{uppercase greek normal}#1
+        \showmathalphabettweaks_check{uppercase greek italic}#1
+        \showmathalphabettweaks_check{uppercase greek bold}#1
+        \showmathalphabettweaks_check{uppercase greek bolditalic}#1
+        \showmathalphabettweaks_check{uppercase greek sansserif bold}#1
+        \showmathalphabettweaks_check{uppercase greek sansserif bolditalic}#1
+    \stopsubsubject
+\stoptexdefinition
+
+\starttexdefinition protected showmathaccenttweaks
+    \showmathalphabettweaks_all\showmathalphabettweaks_check_hat
+\stoptexdefinition
+
+\starttexdefinition protected showmathfencetweaks
+    \showmathalphabettweaks_all\showmathalphabettweaks_check_fences
+\stoptexdefinition
+
+\starttexdefinition protected showmathmiddletweaks
+    \dostepwiserecurse {5} {75} {1} {
+        $\left\{
+         \mathatom class \mathconstructcode \bgroup \vcenter \bgroup \hbox \bgroup
+          \blackrule
+            [\c!height=\dimexpr##1pt/2\relax,
+             \c!depth=\dimexpr##1pt/2\relax,
+             \c!width=\emwidth,
+             \c!color=darkblue]%
+        \egroup \egroup \egroup
+        \middle|
+      % \begingroup\darkblue\scriptscriptstyle\mathtt{##1}\endgroup
+        \right)$
+        \space
+    }
+    \removeunwantedspaces
+\stoptexdefinition
+
+\protect
+
+\stopmodule
+
+\continueifinputfile{s-math-tweaks.mkxl}
+
+\setuplayout
+  [tight]
+
+\setuphead
+  [chapter]
+  [style=\bfd]
+
+\setuphead
+  [section]
+  [style=\bfc]
+
+\setuphead
+  [subsection]
+  [style=\bfb]
+
+\setuphead
+  [subsubsection]
+  [before=\blank,
+   style=\bfa]
+
+% \enabletrackers[math.tweaks]
+
+\starttext
+
+%     \definefontfeature[mathextra][compose=yes]
+
+    \doifelse {\getdocumentargument{bodyfont}} {} {
+
+%         \setupbodyfont[cambria,10pt]   \starttitle[title=\fontclass] \showmathfonttweaks \stoptitle
+%          \setupbodyfont[modern]         \starttitle[title=\fontclass] \showmathfonttweaks \stoptitle
+%         \setupbodyfont[pagella]        \starttitle[title=\fontclass] \showmathfonttweaks \stoptitle
+%         \setupbodyfont[termes]         \starttitle[title=\fontclass] \showmathfonttweaks \stoptitle
+%         \setupbodyfont[bonum]          \starttitle[title=\fontclass] \showmathfonttweaks \stoptitle
+%         \setupbodyfont[schola]         \starttitle[title=\fontclass] \showmathfonttweaks \stoptitle
+%         \setupbodyfont[lucidaot,10pt]  \starttitle[title=\fontclass] \showmathfonttweaks \stoptitle
+%         \setupbodyfont[ebgaramond]     \starttitle[title=\fontclass] \showmathfonttweaks \stoptitle
+%         \setupbodyfont[stixtwo]        \starttitle[title=\fontclass] \showmathfonttweaks \stoptitle
+
+%         \setupbodyfont[bonum]          \starttitle[title=\fontclass] \showmathaccenttweaks \stoptitle
+
+%         \setupbodyfont[bonum]          \starttitle[title=\fontclass] \showmathfencetweaks \stoptitle
+        \setupbodyfont[bonum]          \starttitle[title=\fontclass] \showmathmiddletweaks \stoptitle
+%         \setupbodyfont[modern]          \starttitle[title=\fontclass] \showmathfencetweaks \stoptitle
+
+    } {
+
+        \normalexpanded{\setupbodyfont[\getdocumentargument{bodyfont},12pt]}
+        \showmathfonttweaks
+        \showmathaccenttweaks
+        \showmathfencetweaks
+        \showmathmiddletweaks
+    }
+
+\stoptext
+

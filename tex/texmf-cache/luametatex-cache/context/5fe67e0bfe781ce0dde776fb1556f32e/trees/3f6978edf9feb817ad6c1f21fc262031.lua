@@ -1,0 +1,25 @@
+return {
+ ["content"]={
+  ["files"]={
+   ["context"]="bin",
+   ["context.lua"]="bin",
+   ["luametatex"]="bin",
+   ["luatex"]="bin",
+   ["mtxrun"]="bin",
+   ["mtxrun.lua"]="bin",
+  },
+  ["metadata"]={
+   ["directories"]=1,
+   ["files"]=6,
+   ["path"]="selfautoparent:texmf-linux-64",
+   ["remappings"]=0,
+  },
+  ["remap"]={},
+ },
+ ["date"]="2022-08-03",
+ ["root"]="selfautoparent:texmf-linux-64",
+ ["time"]="16:15:41",
+ ["type"]="files",
+ ["uuid"]="30317db2-46cb-a084-91e2-a9130a2b06b1",
+ ["version"]="1.100",
+}

@@ -1,0 +1,151 @@
+%D \module
+%D   [       file=math-pln,
+%D        version=2001.11.16,
+%D          title=\CONTEXT\ Math Macros,
+%D       subtitle=Plain Helpers,
+%D         author=Hans Hagen,
+%D           date=\currentdate,
+%D      copyright={PRAGMA ADE \& \CONTEXT\ Development Team}]
+%C
+%C This module is part of the \CONTEXT\ macro||package and is
+%C therefore copyrighted by \PRAGMA. See mreadme.pdf for
+%C details.
+
+%D Here we collect some Plain \TEX\ leftovers.
+
+\writestatus{loading}{ConTeXt Math Macros / Plain Helpers}
+
+\unprotect
+
+% We need proper unicode:
+
+\def\relbar{\mathrel{\smash-}} % - has the same height as + .. no clue what this refers to
+
+%D This might change:
+
+\permanent\protected\def\hrulefill{\leaders\hrule\hfill}
+%permanent\protected\def\dotfill  {\cleaders\hbox{\normalstartimath\mathsurround\zeropoint\mkern1.5mu.\mkern1.5mu\normalstopimath}\hfill}
+
+%D These need an update:
+
+\permanent\protected\def\bmod
+  {\nonscript
+   \mskip-\medmuskip
+   \mkern5mu
+   \mfunction{mod}%
+   \penalty900
+   \mkern5mu
+   \nonscript
+   \mskip-\medmuskip}
+
+\permanent\protected\def\pmod#1%
+  {\allowbreak
+   \mkern18mu
+   (\mfunction{mod}\mskip\medmuskip#1)}
+
+%D This comes from plain but I gave it a \CONTEXT\ touch. When Mikael and I are in
+%D the mood we will redo them in a more modern way.
+
+\permanent\def\math_border_NC_indeed
+  {\enforced\global\def\math_border_NC{\aligntab}}
+
+\aliased\let\math_border_NC\math_border_NC_indeed
+
+\permanent\def\math_border_NR
+  {\enforced\global\let\math_border_NC\math_border_NC_indeed
+   \cr}
+
+\protected\def\math_border_matrix#1#2#3% adapted plain
+  {\begingroup
+   %
+   \setbox\scratchbox\hbox\bgroup
+     \mr B%
+   \egroup
+   \scratchdimenone\wd\scratchbox
+   %
+   \scratchdimentwo.2\bodyfontsize
+   %
+   \mathsurround\zeropoint
+   %
+   \enforced\def\NC{\math_border_NC}%
+   \enforced\def\NR{\math_border_NR}%
+   %
+   \gdef\m_math_border_matrix
+     {\kern\scratchdimentwo
+      \glet\m_math_border_matrix\relax}%
+   %
+   \setbox\scratchboxone\vbox\bgroup
+     \everycr{\noalign\bgroup\m_math_border_matrix\egroup}%
+     \tabskip \zeroskip
+     \halign{% \ialign resets everycr
+       \startimath\alignmark\alignmark\stopimath
+       \hfil
+       \kern\dimexpr\scratchdimentwo+\scratchdimenone\relax
+       \aligntab
+       \thinspace
+       \hfil
+       \startimath\alignmark\alignmark\stopimath
+       \hfil
+       \aligntab
+       \aligntab
+       \quad
+       \hfil
+       \startimath\alignmark\alignmark\stopimath
+       \hfil
+       \crcr
+       \omit
+       \strut
+       \hfil
+       \crcr
+       \noalign{\kern-\baselineskip}%
+       #3\crcr
+       \omit
+       \strut
+       \cr}%
+   \egroup
+   \setbox\scratchboxtwo\vbox\bgroup
+     \unvcopy\scratchboxone
+     \global\setbox\globalscratchbox\lastbox
+   \egroup
+   \setbox\scratchboxtwo\hbox\bgroup
+     \unhbox\globalscratchbox
+     \unskip
+     \global\setbox\globalscratchbox\lastbox
+   \egroup
+   \setbox\scratchboxtwo\hbox\bgroup
+     \startimath
+     \kern\dimexpr\wd\globalscratchbox-\scratchdimenone\relax
+     \left#1\relax
+     \kern-\wd\globalscratchbox
+     \global\setbox\globalscratchbox\vbox\bgroup
+       \box\globalscratchbox
+       \kern\scratchdimentwo
+     \egroup
+     \vcenter\bgroup
+       \kern-\ht\globalscratchbox
+       \unvbox\scratchboxone
+       \kern-\baselineskip
+     \egroup
+     \thinspace
+     \right#2\relax
+     \stopimath
+   \egroup
+   \null
+   \thickspace
+   \vbox\bgroup
+     \kern\ht\globalscratchbox
+     \box\scratchboxtwo
+   \egroup
+   %
+   \endgroup}
+
+\permanent\protected\def\bordermatrix {\math_border_matrix()}
+\permanent\protected\def\bbordermatrix{\math_border_matrix[]}
+
+\permanent\protected\def\startbordermatrix #1\stopbordermatrix {\math_border_matrix(){#1}}
+\permanent\protected\def\startbbordermatrix#1\stopbbordermatrix{\math_border_matrix[]{#1}}
+
+\permanent\let\stopbordermatrix \relax
+\permanent\let\stopbbordermatrix\relax
+
+\protect \endinput
