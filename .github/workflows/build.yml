@@ -1,0 +1,62 @@
+name: "Build"
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 1'
+jobs:
+  main:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: cachix/install-nix-action@v17
+      with:
+        nix_path: nixpkgs=https://github.com/NixOS/nixpkgs/archive/nixpkgs-unstable.tar.gz
+    - name: Set up github-actions name and email
+      run: |
+        git config user.name "github-actions"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+    - name: Bootstrap
+      run: |
+        sudo apt-get update
+        sudo apt-get install libarchive-tools
+        curl -s http://lmtx.pragma-ade.nl/install-lmtx/context-linux-64.zip | bsdtar -xf-
+    - name: Install ConTeXt LMTX and MkIV (LuaTeX)
+      run: |
+        sh ./install.sh --engine=luatex
+    - name: Install ConTeXt modules
+      run: |
+        rsync -rltv --del rsync://contextgarden.net/minimals/current/modules/ modules
+        rsync -rlt --exclude=/VERSION --del modules/*/ tex/texmf-modules
+    - name: Write version
+      run: |
+        > version echo \"`grep -Eo '[0-9.]+ [0-9:]+' $PWD/tex/texmf-context/tex/context/base/mkxl/context.mkxl`\"
+    - name: Generate release tag
+      id: tag
+      run: |
+        TAG=$(date +'%y%m%d')
+        if git ls-remote --exit-code origin "refs/tags/$TAG"; then
+          TAG=${TAG}.$(date +'%H%M')
+        fi
+        echo "::set-output name=tag::$TAG"
+    - name: Commit ${{ steps.tag.outputs.tag }} to releases
+      run: |
+        # set HEAD to releases, or new orphan branch if it does not exist on remote
+        git fetch origin releases:releases || true
+        git symbolic-ref HEAD refs/heads/releases
+        git reset
+        # add files to git index before updating flake.lock
+        mv common/flake.nix .
+        git add flake.nix version bin modules tex install.sh installation.pdf
+        nix flake update
+        git add flake.lock
+        # commit, tag and push
+        git commit -m "release ${{ steps.tag.outputs.tag }}"
+        git tag "${{ steps.tag.outputs.tag }}"
+        git push origin releases "${{ steps.tag.outputs.tag }}"
+    - uses: softprops/action-gh-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        name: "${{ steps.tag.outputs.tag }}"
+        tag_name: "${{ steps.tag.outputs.tag }}"
