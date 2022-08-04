@@ -28,6 +28,9 @@ jobs:
       run: |
         rsync -rltv --del rsync://contextgarden.net/minimals/current/modules/ modules
         rsync -rlt --exclude=/VERSION --del modules/*/ tex/texmf-modules
+    - name: Remove texmf cache
+      run: |
+        rm -rf tex/texmf-cache
     - name: Write version
       run: |
         > version echo \"`grep -Eo '[0-9.]+ [0-9:]+' $PWD/tex/texmf-context/tex/context/base/mkxl/context.mkxl`\"
