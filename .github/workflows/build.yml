@@ -21,10 +21,10 @@ jobs:
         sudo apt-get update
         sudo apt-get install libarchive-tools
         curl -s http://lmtx.pragma-ade.nl/install-lmtx/context-linux-64.zip | bsdtar -xf-
-    - name: Install ConTeXt LMTX and MkIV (LuaTeX)
+    - name: Bootstrap ConTeXt LMTX and MkIV (LuaTeX)
       run: |
         sh ./install.sh --engine=luatex
-    - name: Install ConTeXt modules
+    - name: Bootstrap ConTeXt modules
       run: |
         rsync -rltv --del rsync://contextgarden.net/minimals/current/modules/ modules
         rsync -rlt --exclude=/VERSION --del modules/*/ tex/texmf-modules
