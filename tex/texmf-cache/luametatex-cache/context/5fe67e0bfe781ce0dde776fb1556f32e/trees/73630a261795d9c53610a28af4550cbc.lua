@@ -9,10 +9,10 @@ return {
   },
   ["remap"]={},
  },
- ["date"]="2022-08-03",
+ ["date"]="2022-08-04",
  ["root"]="selfautoparent:texmf-local",
- ["time"]="16:15:41",
+ ["time"]="12:28:12",
  ["type"]="files",
- ["uuid"]="c0121116-4423-b3f2-f8d1-33f3bf2d05d0",
+ ["uuid"]="18fe54f8-4bfe-8f44-0156-ec4fd0e5b1f9",
  ["version"]="1.100",
 }

@@ -25,8 +25,11 @@
           ln -s $FILE $out/tex/''${FILE##*/}
         done
 
-        # copy "tex/texmf-linux-64" -> "tex/texmf-linux-64"
-        rm $out/tex/texmf-linux-64
+        # remove symlink "tex/texmf-cache"
+        rm -f $out/tex/texmf-cache
+
+        # realize "tex/texmf-linux-64"
+        rm -f $out/tex/texmf-linux-64
         cp -a ${src}/tex/texmf-linux-64 $out/tex/texmf-linux-64
 
         # wrap "tex/texmf-linux-64/bin/<exe>" -> "bin/<exe>"

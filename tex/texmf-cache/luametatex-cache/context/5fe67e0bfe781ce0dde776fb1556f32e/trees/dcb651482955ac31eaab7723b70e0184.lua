@@ -1712,10 +1712,10 @@ return {
    ["xitsmath-regular.otf"]="XITSMath-Regular.otf",
   },
  },
- ["date"]="2022-08-03",
+ ["date"]="2022-08-04",
  ["root"]="selfautoparent:texmf",
- ["time"]="16:15:41",
+ ["time"]="12:28:12",
  ["type"]="files",
- ["uuid"]="e3abd005-4d4c-a235-e977-39f985f83cc1",
+ ["uuid"]="5f9b4f9e-4c94-93fb-f547-5be0223e6e2c",
  ["version"]="1.100",
 }
